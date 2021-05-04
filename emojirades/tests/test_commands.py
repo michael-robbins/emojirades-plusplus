@@ -209,6 +209,22 @@ class TestBotCommands(EmojiradeBotTester):
             "Sorry, but this command can only be sent as a direct message!",
         ) in self.responses
 
+    def test_redo_emojirade(self):
+        """Ensure that a user can 'redo' an emojirade eg. typo"""
+        self.reset_and_transition_to("provided")
+
+        emojirade = "this_has_no typo"
+
+        override = {"text": f"emojirade {emojirade}"}
+        self.send_event({**self.events.posted_emojirade, **override})
+
+        print(self.responses)
+
+        assert (
+            self.config.player_2_channel,
+            f"Hey, <@{self.config.player_1}> made the emojirade `{emojirade}`, good luck!",
+        ) in self.responses
+
     def test_user_override(self):
         self.reset_and_transition_to("guessing")
 

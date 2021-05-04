@@ -217,9 +217,9 @@ class GameState(object):
 
     def set_emojirade(self, channel, emojirades):
         """New emojirade word(s), 'emojirade' is a list of accepted answers"""
-        if self.state[channel]["step"] != "waiting":
+        if self.state[channel]["step"] not in ("waiting", "provided"):
             raise self.InvalidStateException(
-                "Expecting {channel}'s state to be 'waiting', it is actually {self.state[channel]['step'])}"
+                f"Expecting {channel}'s state to be 'waiting|provided', it is actually {self.state[channel]['step']}"
             )
 
         self.state[channel]["emojirade"] = [sanitize_text(i) for i in emojirades]
